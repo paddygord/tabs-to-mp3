@@ -16,4 +16,4 @@ urls = [tab['entries'][tab['index']-1]['url'] for win in json_data['windows'] fo
 site_re = re.compile(r'([^.]*)?\.(youtube|soundcloud|bandcamp|spotify).com')
 urls = [url for url in urls if site_re.match(urlparse(url).hostname)]
 
-[os.system('youtube-dl {}'.format(url)) for url in urls]
+[os.system('youtube-dl --config-location . {}'.format(url)) for url in urls]
