@@ -6,6 +6,8 @@ from glob import glob
 from pprint import pprint
 import youtube_dl
 import youtube_dl.utils
+from urllib.parse import urlparse
+import re
 
 
 filename = glob('/home/patrick/.mozilla/firefox*/*.default-*/sessionstore-backups/recovery.jsonlz4')[0]
@@ -14,6 +16,8 @@ magic = file.read(8)
 json_data = json.loads(lz4.block.decompress(file.read()).decode('utf-8'))
 file.close()
 urls = [tab['entries'][tab['index']-1]['url'] for win in json_data['windows'] for tab in win['tabs']]
+site_re = re.compile(r'([^.]*)?\.(youtube|soundcloud|bandcamp|spotify).com')
+urls = [url for url in urls if site_re.match(urlparse(url).hostname)]
 
 
 class logger(object):
