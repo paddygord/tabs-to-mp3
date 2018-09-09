@@ -13,7 +13,7 @@ magic = file.read(8)
 json_data = json.loads(lz4.block.decompress(file.read()).decode('utf-8'))
 file.close()
 urls = [tab['entries'][tab['index']-1]['url'] for win in json_data['windows'] for tab in win['tabs']]
-site_re = re.compile(r'([^.]*)?\.(youtube|soundcloud|bandcamp|spotify).com')
+site_re = re.compile(r'([^.]*)?\.(youtube|soundcloud|bandcamp).com')
 urls = [url for url in urls if site_re.match(urlparse(url).hostname)]
 
 [os.system('youtube-dl --config-location . {}'.format(url)) for url in urls]
